@@ -1,0 +1,149 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<title>Online Examination</title>
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width,initial-scale=1">
+	<!-- bOOTSTRAP CSS -->
+	<link rel="stylesheet" type="text/css" href="css/bootstrap.min.css">
+	<!-- web font -->
+	<link href="css/font-awesome.min.css" rel="stylesheet" type="text/css" media="all">
+
+	<style type="text/css">
+		body {
+			background-image: url("images/main_back.jpg");
+			background-repeat: no-repeat;
+
+		}
+	</style>
+</head>
+<body>
+
+	<div class="col-md-4 col-md-offset-4"
+		<div class="container-fluid">
+			<div class="panel panel-default">
+					<div class="panel-heading">
+						<h3 align="center">Online Examination System</h3>
+					</div>	
+					<div class="panel-body">
+						<form method="post" action="registration.php">
+							<div class="form-group">
+								<label class="col-md-4">Full Name :</label>
+								<div class="col-md-8">
+								<input type="textfield" name="tf1" class="form-control" placeholder="Enter your name" required>
+								<br>
+								</div>
+							</div>
+
+							<div class="form-group">
+									<label class="col-md-4">Email :</label>
+									<div class="col-md-8">
+										<input type="email" name="tf2" class="form-control" placeholder="Enter your email" required>
+										<br>
+									</div>
+							</div>
+
+							<div class="form-group">
+									<label class="col-md-4">College/School:</label>
+									<div class="col-md-8">
+										<input type="textfield" name="tf3" class="form-control" placeholder="Enter your college name" required>
+										<br>
+									</div>
+							</div>
+
+							<div class="form-group">
+								<label class="col-md-2">Year:</label>
+								<div class="col-md-4">
+									<select class="form-control" name="tf4">
+										<option value="1">I</option>
+										<option value="2">II</option>
+										<option value="3">III</option>
+										<option value="4">IV</option>
+									</select>
+								</div>
+								<label class="col-md-2">Sec:</label>
+								<div class="col-md-4">
+								<select class="form-control" name="tf5" >
+										<option value="A">A</option>
+										<option value="B">B</option>
+										<option value="C">C</option>
+										<option value="D">D</option>
+								</select>	<br>
+								</div>
+							</div>
+
+							<div class="form-group">
+									<label class="col-md-4">Mobile :</label>
+									<div class="col-md-8">
+										<input type="number" name="tf6" class="form-control" placeholder="Enter your Mobile No" required>
+										<br>
+									</div>
+							</div>
+
+							<div class="form-group">
+									<label class="col-md-4">Roll number :</label>
+									<div class="col-md-8">
+										<input type="number" name="tf7" class="form-control" placeholder="Enter your RollNumber" required>
+										<br>
+									</div>
+							</div>
+
+							<div class="form-group">
+								<label class="col-md-4">Password :</label>
+								<div class="col-md-8">
+									<input type="password" name="tf8" class="form-control" placeholder="Enter your password" id="password" required>
+									<br>
+								</div>
+							</div>
+
+							<div class="form-group">
+								<label class="col-md-4">Password :</label>
+								<div class="col-md-8">
+									<input type="password" name="tf9" class="form-control" placeholder="Confirm password" id="confirm_password" required>
+									<br>
+								</div>
+							</div>
+
+
+							<div class="form-group">
+									<div class="col-md-12" align="center">
+										<input type="submit" name="tf10" class="btn btn-default" value="Submit" onclick="Validate()">
+										<br>
+										<a href="php/login.php" style="float:right;">Already have account?</a>
+										<br>
+									</div>
+							</div>
+
+
+						</form>
+					</div>	
+			</div>
+		</div>
+	</div>
+	
+	
+<!-- Password Check -->
+	<script type="text/javascript">
+		function Validate()
+		{
+			var pass1 = document.getElementById('password').value;
+			var pass2 = document.getElementById('confirm_password').value;	
+
+			if(pass1 != pass2)
+			{
+				confirm_password.setCustomValidity("Password donot match!!!");
+			}
+			else
+			{
+				confirm_password.setCustomValidity("");
+			}
+		}
+
+		password.onchange = validate;
+		confirm_password.onkeyup = validate;
+	</script>
+
+<script src="js/jquery.min.js"></script>
+<script src="js/bootstrap.min.js"></script>
+</body>
+</html>
