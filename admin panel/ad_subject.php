@@ -74,14 +74,196 @@ else
             REGISTRATION TO ADD NEW EXAM    
             </div>
             <div class="panel-body">
+			<form action="" method="post">
                 <div class="form-group row">
-
+                    <label for="sub_name" class="col-md-3">Subject Name: </label>
+                    <div class="col-md-9">
+                    <input type="text" class="form-control" placeholder="Enter Subject/Topic name" name="sub_name" required>
+                    </div>
                 </div>
+				<div class="form-group row">
+                    <label for="sub_name" class="col-md-3">Exam Name: </label>
+                    <div class="col-md-9">
+                    <input type="text" class="form-control" placeholder="Enter Exam name" name="exam_name" required>
+                    </div>
+                </div>
+				<div class="form-group row">
+                    <label for="sub_name" class="col-md-3">Exam Description: </label>
+                    <div class="col-md-9">
+                    <input type="textarea" rows="5" class="form-control" placeholder="Enter exam description" name="description" required>
+                    </div>
+                </div>
+
+                <div class="form-group row">
+                    <label for="sub_time" class="col-md-3">Time(Seconds): </label>
+                    <div class="col-md-9">
+                    <input type="number" min=60 max=3600 class="form-control" placeholder="Enter exam time (minutes)" name="time" required>
+                    </div>
+                </div>
+                <div class="form-group row">
+                    <label for="sub_time" class="col-md-3">No of Questions: </label>
+                    <div class="col-md-9">
+                    <input type="number" min=4 max=60 class="form-control" placeholder="Enter number of Questions" name="no_of_ques" required>
+                    </div>
+                </div>
+				<div class="form-group row">
+                    <label for="sub_name" class="col-md-3">From: </label>
+                    <div class="col-md-9">
+                    <input type="date" class="form-control" name="date_from" required>
+                    </div>
+                </div>
+				<div class="form-group row">
+                    <label for="sub_name" class="col-md-3">To: </label>
+                    <div class="col-md-9">
+                    <input type="date" class="form-control" name="date_to" required>
+                    </div>
+                </div>
+				<div class="form-group row">
+                    <label for="sub_name" class="col-md-3">Secret code: </label>
+                    <div class="col-md-9">
+                    <input type="password" class="form-control" name="secret_code" required>
+                    </div>
+                </div>
+				<br>
+				<div class="form-group row">
+                    <div class="col-md-9" align="center">
+                    <input type="submit" class="btn btn-default" name="tf4" value="Submit" required>
+                    </div>
+                </div>
+			</form>	
             </div>
         </div>
    
 
+<?php
 
+if(!$conn)
+{
+	die("<script>alert('Error');
+	window.location.href='../index.html';
+	</script>");
+}
+
+@$subject_name = @$test_name = @$test_description = @$date_from = @$date_to = @$secret_code = @$no_of_questions = @$time = "";
+
+function input_test($data)
+{
+	$data = trim($data);
+	$data = stripslashes($data);
+	$data = htmlspecialchars($data); 
+	return $data;
+}
+
+if(isset($_POST['tf4']))
+{
+	if(empty($_POST['sub_name']))
+	{
+		echo "<script>alert('Subject name required');</script>";
+	}
+	else
+	{
+		$subject_name = input_test($_POST['sub_name']);
+	}
+
+
+	if(empty($_POST['exam_name']))
+	{
+		echo "<script>alert('Exam name required');</script>";
+	}
+	else
+	{
+		$test_name = input_test($_POST['exam_name']);
+	}
+
+
+	if(empty($_POST['description']))
+	{
+		echo "<script>alert('Exam description required');</script>";
+	}
+	else
+	{
+		$test_description = input_test($_POST['description']);
+	}
+
+
+	if(empty($_POST['time']))
+	{
+		echo "<script>alert('Exam time required');</script>";
+	}
+	else
+	{
+		$time = input_test($_POST['time']);
+	}
+
+
+	if(empty($_POST['no_of_ques']))
+	{
+		echo "<script>alert('Number of questions required');</script>";
+	}
+	else
+	{
+		$no_of_questions = input_test($_POST['no_of_ques']);
+	}
+
+
+	if(empty($_POST['date_from']))
+	{
+		echo "<script>alert('Starting Date required');</script>";
+	}
+	else
+	{
+		$date_from = input_test($_POST['date_from']);
+	}
+
+
+	if(empty($_POST['date_to']))
+	{
+		echo "<script>alert('End date required');</script>";
+	}
+	else
+	{
+		$date_to = input_test($_POST['date_to']);
+	}
+
+
+	if(empty($_POST['secret_code']))
+	{
+		echo "<script>alert('Secret code required');</script>";
+	}
+	else
+	{
+		$secret_code = input_test($_POST['secret_code']);
+	}
+
+
+
+
+	@$result = "INSERT INTO subjectdetails VALUES ('$subject_name','$test_name','$test_description',$no_of_questions,$time,'$date_from','$date_to','$secret_code','No')";
+
+
+if(mysqli_query($conn,$result))
+{
+	echo "<script>alert('New Subject Created');
+	window.location.href = 'admin_home.php';
+	</script>";
+}
+else 
+{
+//	echo "<script>alert('Error');
+//	window.location.href = 'ad_subject.php';
+//	</script>";
+}
+
+	
+
+
+}
+
+
+
+mysqli_close($conn);
+
+?>
 
 
 

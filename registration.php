@@ -15,7 +15,7 @@ if (!$conn) {
 # Needed variables
 
 
-@$name = @$email = @$mobile = @$year = @$sec = @$college = @$rollnumber = @$password = "";
+@$name = @$email = @$mobile = @$year = @$sec = @$college = @$rollnumber = @$password = " ";
 
 
 # Getting form values  !!!
@@ -111,7 +111,7 @@ if(isset($_POST['tf8']))
 
 
 
-$select = "INSERT INTO userdetails VALUES ('$name','$email','$college',$year,'$sec',$mobile,$rollnumber,$password)";
+@$select = "INSERT INTO userdetails VALUES ('$name','$email','$college','$year','$sec',$mobile,$rollnumber,'$password')";
 
 
 if(mysqli_query($conn,$select))
@@ -119,6 +119,12 @@ if(mysqli_query($conn,$select))
 	echo "<script>alert('Registration Successfull');
 		window.location.href='php/login.php';
 		</script>";
+}
+else
+{
+	echo "<script>alert('Registration Unsuccessfull');
+	window.location.href='index.html';
+	</script>";
 }
 
 
