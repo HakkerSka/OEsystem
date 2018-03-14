@@ -28,7 +28,7 @@ else
 	<link rel="stylesheet" type="text/css" href="../css/bootstrap.min.css">
 	<!-- web font -->
 	<link href="css/font-awesome.min.css" rel="stylesheet" type="text/css" media="all">
-
+	<script src="../js/jquery.min.js"></script>
 	
 </head>
 <body>
@@ -254,20 +254,194 @@ else
 //	</script>";
 }
 
-	
 
 
 }
 
+?>
 
+
+<div class="conatiner">
+	<div class="col-md-12	">
+	<table class="table table-striped">
+		  <tr>
+		  		<th> S.No. </th>
+			  <th>Subject Name</th>
+			  <th> Exam Name </th>
+			  <th> Exam Description </th>
+			  <th> No of Questions </th>
+			  <th> Time </th>
+			  <th> From </th>
+			  <th> To </th>
+			  <th> Secret Code </th>
+			  <th> Status </th>
+			  <th> Edit </th>
+			  <th> Manage <th>
+		  </tr>
+
+
+	<?php
+
+@$fetch_subject = "SELECT * FROM subjectdetails";
+@$fetch_subject2 = mysqli_query($conn,$fetch_subject);
+@$fetch_subject3 = mysqli_num_rows($fetch_subject2);
+
+@$count = 0;
+
+if($fetch_subject2)
+{
+if($fetch_subject3 <= 0)
+{
+ echo "<tr> <td colspan='9'> <h5 align='center'>  No Subject yet </h5> </td>  </tr>";
+}
+else
+{
+
+	while(@$sub_values = mysqli_fetch_array($fetch_subject2))
+	{
+			$count++;
+
+
+		echo "<tr> 
+		<td>". $count  ."</td>	
+		<td id='sub_name'>". $sub_values['subjectname']  ."</td>
+		<td>". $sub_values['test name']  ."</td>
+		<td>". $sub_values['test description']  ."</td>
+		<td>". $sub_values['no_of_questions']  ."</td>
+		<td>". $sub_values['time']  ."</td>
+		<td>". $sub_values['date from']  ."</td>
+		<td>". $sub_values['date to']  ."</td>
+		<td>". $sub_values['secret code']  ."</td>
+		<td>". $sub_values['status']  ."</td>
+		<td> <button class='btn btn-success' onclick='edit()' id='edit' data-toggle='modal' data-target='#mymodal'> Edit </button> </td>
+		<td> <button class='btn btn-danger'> Manage </button> </td>
+	  </tr>";	
+	}
+	
+}
+}
+else
+{
+	echo "<script> alert('Cann't fetch details!!!'); </script>";
+}
 
 mysqli_close($conn);
+
 
 ?>
 
 
 
-<script src="../js/jquery.min.js"></script>
+</table>
+	</div>
+</div>
+
+
+<div class="modal fade" id="mymodal" role="dialog">
+	<div class="modal-dialog">
+
+		<div class="model-content">
+			<div class="modal-content">
+				<div class="modal-header">
+					Edit Details:
+				</div>
+				<div class="modal-body">
+		
+            
+			<form action="" method="post">
+                <div class="form-group row">
+                    <label for="sub_name" class="col-md-3">Subject Name: </label>
+                    <div class="col-md-9">
+                    <input type="text" class="form-control" placeholder="<?php echo $sub_values['subjectname'] ; ?>" name="sub_name" required>
+                    </div>
+                </div>
+				<div class="form-group row">
+                    <label for="sub_name" class="col-md-3">Exam Name: </label>
+                    <div class="col-md-9">
+                    <input type="text" class="form-control" placeholder="Enter Exam name" name="exam_name" required>
+                    </div>
+                </div>
+				<div class="form-group row">
+                    <label for="sub_name" class="col-md-3">Exam Description: </label>
+                    <div class="col-md-9">
+                    <input type="textarea" rows="5" class="form-control" placeholder="Enter exam description" name="description" required>
+                    </div>
+                </div>
+
+                <div class="form-group row">
+                    <label for="sub_time" class="col-md-3">Time(Seconds): </label>
+                    <div class="col-md-9">
+                    <input type="number" min=60 max=3600 class="form-control" placeholder="Enter exam time (minutes)" name="time" required>
+                    </div>
+                </div>
+                <div class="form-group row">
+                    <label for="sub_time" class="col-md-3">No of Questions: </label>
+                    <div class="col-md-9">
+                    <input type="number" min=4 max=60 class="form-control" placeholder="Enter number of Questions" name="no_of_ques" required>
+                    </div>
+                </div>
+				<div class="form-group row">
+                    <label for="sub_name" class="col-md-3">From: </label>
+                    <div class="col-md-9">
+                    <input type="date" class="form-control" name="date_from" required>
+                    </div>
+                </div>
+				<div class="form-group row">
+                    <label for="sub_name" class="col-md-3">To: </label>
+                    <div class="col-md-9">
+                    <input type="date" class="form-control" name="date_to" required>
+                    </div>
+                </div>
+				<div class="form-group row">
+                    <label for="sub_name" class="col-md-3">Secret code: </label>
+                    <div class="col-md-9">
+                    <input type="password" class="form-control" name="secret_code" required>
+                    </div>
+                </div>
+				<br>
+				<div class="form-group row">
+                    <div class="col-md-9" align="center">
+                    <input type="submit" class="btn btn-default" name="tf4" value="Submit" required>
+                    </div>
+                </div>
+			</form>	
+         
+      
+   
+				</div>
+			</div>
+		</div>
+
+	</div>
+</div>
+
+
+
+<span id="edit_model"></span>
+
+
+<script type="text/javascript">
+
+
+
+/*
+function edit(){
+		var sub_name = document.getElementById("sub_name").innerHTML;
+		
+		var xhttp;
+		xhttp = new XMLHttpRequest();
+		xhttp.onreadystatechange = function() {
+			if(this.readyState == 4 && this.status == 200){
+				document .getElementById("edit_model").innerHTML = this.responseText;
+			}
+		};
+		xhttp.open("POST","ad_subject_model.php?subject_name="+sub_name,true);
+		xhttp.send();
+	}
+*/
+</script>
+
+
 <script src="../js/bootstrap.min.js"></script>
 </body>
 </html>

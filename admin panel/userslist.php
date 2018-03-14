@@ -28,6 +28,8 @@ else
 	<link rel="stylesheet" type="text/css" href="../css/bootstrap.min.css">
 	
 
+	<script src="../js/jquery.min.js"></script>
+
 	<!-- web font -->
 	<link href="../css/font-awesome.min.css" rel="stylesheet" type="text/css" media="all">
 	<style type="text/css">
@@ -77,6 +79,7 @@ else
 		<table class="table table-striped">
 			<thead>
 				<tr>
+					<th>SNo. </th>
 					<th>Name: </th>
 					<th> Email: </th>
 					<th> College: </th>
@@ -85,6 +88,8 @@ else
 					<th> Mobile: </th>
 					<th> Roll Number: </th>
 					<th> Password </th>
+					<th> Update </th>
+					<th> Delete </th>
 				</tr>
 			</thead>
 			<tbody>
@@ -107,15 +112,16 @@ else
 					@$num_registration = mysqli_num_rows($result2);
 
 					@$count = 0;
-
+					@$num = 0;
 					if($result2)
 					{
 						while(@$row = mysqli_fetch_array($result2))
 						{
 							$count++;
-
+							$num++;	
 							echo "<tr> 
-									<td>". $row['fullname'] ." </td>
+									<td>". $count ." </td>
+									<td id='fullname1".$num."'>". $row['fullname'] ." </td>
 									<td> ". $row['email']  . "</td>
 									<td> ". $row['college']  . "</td>
 									<td> ". $row['year']  . "</td>
@@ -123,6 +129,8 @@ else
 									<td> ". $row['mobile']  . "</td>
 									<td> ". $row['rollnumber']  . "</td>
 									<td> ". $row['password']  . "</td>
+									<td> <input type='button' id='edit_button".$num."' onclick='abc(".$num.")' class='btn btn-primary' value='Update' name='edit'>  </td>
+									<td> <input type='button' class='btn btn-danger' value='Delete' name='delete'> </td>
 									</tr>";
 
 						}
@@ -142,8 +150,36 @@ else
 </div>	
 
 
+<script>
+/*
+$(document).ready(function(){
 
-<script src="../js/jquery.min.js"></script>
+	for(var i=1;i<= <?//php echo $num_registration; ?>;i++)
+{
+	$("#edit_button"+i).click(function() {
+		console.log(i);
+		var a = document.getElementById('fullname1'+i);
+		console.log(a);
+
+		
+	});
+}
+
+});
+
+*/
+	
+function abc(i) {
+		
+		var a = document.getElementById('fullname1'+i).innerHTML;
+		console.log(a);
+
+		
+	}
+
+
+</script>
+
 <script src="../js/bootstrap.min.js"></script>
 
 
