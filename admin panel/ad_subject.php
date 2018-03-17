@@ -97,7 +97,7 @@ else
                 <div class="form-group row">
                     <label for="sub_time" class="col-md-3">Time(Seconds): </label>
                     <div class="col-md-9">
-                    <input type="number" min=60 max=3600 class="form-control" placeholder="Enter exam time (minutes)" name="time" required>
+                    <input type="time" min=00:10:00 step="2"class="form-control" placeholder="Enter exam time (minutes)" name="time" required>
                     </div>
                 </div>
                 <div class="form-group row">
@@ -236,9 +236,36 @@ if(isset($_POST['tf4']))
 	}
 
 
+// function to calculate random ID
 
 
-	@$result = "INSERT INTO subjectdetails VALUES ('$subject_name','$test_name','$test_description',$no_of_questions,$time,'$date_from','$date_to','$secret_code','No')";
+	function random_id($length = 6)
+	{
+		@$characters = '123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ';
+		@$lengthstring = strlen($characters);
+		for($i = 1; $i<= $length; $i++)
+		{
+			@$random_string .= $characters[mt_rand(0 , $lengthstring-1)];
+		}
+
+		return $random_string;
+	}
+
+
+	$id = random_id();
+	@$check = "SELECT * FROM subjectdetails WHERE sub_id = '$id'";
+	@$check2 = mysqli_query($conn,$check);
+
+
+	while(mysqli_num_rows($check2) != 0)
+	{	
+		$id = random_id();
+		@$check = "SELECT * FROM subjectdetails WHERE sub_id = '$id'";
+		@$check2 = mysqli_query($conn,$check);
+	}
+	
+
+	@$result = "INSERT INTO subjectdetails VALUES ('$id','$subject_name','$test_name','$test_description',$no_of_questions,'$time','$date_from','$date_to','$secret_code','No')";
 
 
 if(mysqli_query($conn,$result))
@@ -249,9 +276,9 @@ if(mysqli_query($conn,$result))
 }
 else 
 {
-//	echo "<script>alert('Error');
-//	window.location.href = 'ad_subject.php';
-//	</script>";
+	echo "<script>alert('Error');
+	window.location.href = 'ad_subject.php';
+	</script>";
 }
 
 
@@ -304,16 +331,17 @@ else
 
 		echo "<tr> 
 		<td>". $count  ."</td>	
-		<td id='sub_name'>". $sub_values['subjectname']  ."</td>
-		<td>". $sub_values['test name']  ."</td>
-		<td>". $sub_values['test description']  ."</td>
-		<td>". $sub_values['no_of_questions']  ."</td>
-		<td>". $sub_values['time']  ."</td>
-		<td>". $sub_values['date from']  ."</td>
-		<td>". $sub_values['date to']  ."</td>
-		<td>". $sub_values['secret code']  ."</td>
-		<td>". $sub_values['status']  ."</td>
-		<td> <button class='btn btn-success' onclick='edit()' id='edit' data-toggle='modal' data-target='#mymodal'> Edit </button> </td>
+		<td id='sub_id".$count."'>". $sub_values['sub_id']  ."</td>
+		<td id='sub_name".$count."'>". $sub_values['subjectname']  ."</td>
+		<td id='test_name".$count."'>". $sub_values['test name']  ."</td>
+		<td id='test_description".$count."'>". $sub_values['test description']  ."</td>
+		<td id='no_of_questions".$count."'>". $sub_values['no_of_questions']  ."</td>
+		<td id='time".$count."'>". $sub_values['time']  ."</td>
+		<td id='date_from".$count."'>". $sub_values['date from']  ."</td>
+		<td id='date_to".$count."'>". $sub_values['date to']  ."</td>
+		<td id='secret_code".$count."'>". $sub_values['secret code']  ."</td>
+		<td id='status".$count."'>". $sub_values['status']  ."</td>
+		<td> <button class='btn btn-success' onclick='edit(".$count.")' id='edit".$count."' data-toggle='modal' data-target='#mymodal'> Edit </button> </td>
 		<td> <button class='btn btn-danger'> Manage </button> </td>
 	  </tr>";	
 	}
@@ -342,60 +370,61 @@ mysqli_close($conn);
 
 		<div class="model-content">
 			<div class="modal-content">
-				<div class="modal-header">
+				<div class="modal-header" id="sub_heading">
 					Edit Details:
 				</div>
 				<div class="modal-body">
 		
             
-			<form action="" method="post">
+			<form action="ad_subject_model.php" method="post">
+				<span id="sub_id_for_checkup" name="sub_id_for_checkup"></span>
                 <div class="form-group row">
                     <label for="sub_name" class="col-md-3">Subject Name: </label>
                     <div class="col-md-9">
-                    <input type="text" class="form-control" placeholder="<?php echo $sub_values['subjectname'] ; ?>" name="sub_name" required>
+                    <input type="text" class="form-control" id= "sub_name_modal" placeholder=" hi" name="sub_name" required>
                     </div>
                 </div>
 				<div class="form-group row">
                     <label for="sub_name" class="col-md-3">Exam Name: </label>
                     <div class="col-md-9">
-                    <input type="text" class="form-control" placeholder="Enter Exam name" name="exam_name" required>
+                    <input type="text" class="form-control" placeholder="" id= "test_name_modal" name="exam_name" required>
                     </div>
                 </div>
 				<div class="form-group row">
                     <label for="sub_name" class="col-md-3">Exam Description: </label>
                     <div class="col-md-9">
-                    <input type="textarea" rows="5" class="form-control" placeholder="Enter exam description" name="description" required>
+                    <input type="textarea" rows="5" class="form-control" placeholder="" id= "test_description_modal" name="description" required>
                     </div>
                 </div>
 
                 <div class="form-group row">
-                    <label for="sub_time" class="col-md-3">Time(Seconds): </label>
+                    <label for="sub_time" class="col-md-3">Time <sup>(hr:min:sec)</sup> </label>
                     <div class="col-md-9">
-                    <input type="number" min=60 max=3600 class="form-control" placeholder="Enter exam time (minutes)" name="time" required>
+                    <input type="time" min=00:10:00  class="form-control" id= "time_modal" placeholder="" name="time" required>
                     </div>
                 </div>
                 <div class="form-group row">
                     <label for="sub_time" class="col-md-3">No of Questions: </label>
                     <div class="col-md-9">
-                    <input type="number" min=4 max=60 class="form-control" placeholder="Enter number of Questions" name="no_of_ques" required>
+                    <input type="number" min=4 max=60 class="form-control" placeholder="" id= "no_of_questions_modal" name="no_of_ques" required>
                     </div>
                 </div>
 				<div class="form-group row">
                     <label for="sub_name" class="col-md-3">From: </label>
                     <div class="col-md-9">
-                    <input type="date" class="form-control" name="date_from" required>
+                    <input type="date" class="form-control" name="date_from" id= "date_from_modal" required>
                     </div>
                 </div>
 				<div class="form-group row">
                     <label for="sub_name" class="col-md-3">To: </label>
                     <div class="col-md-9">
-                    <input type="date" class="form-control" name="date_to" required>
+                    <input type="date" class="form-control" name="date_to" id= "date_to_modal" required>
                     </div>
                 </div>
 				<div class="form-group row">
                     <label for="sub_name" class="col-md-3">Secret code: </label>
                     <div class="col-md-9">
-                    <input type="password" class="form-control" name="secret_code" required>
+                    <input type="text" class="form-control" name="secret_code" id= "secret_code_modal" required>
                     </div>
                 </div>
 				<br>
@@ -415,9 +444,12 @@ mysqli_close($conn);
 	</div>
 </div>
 
-
+<!--
 
 <span id="edit_model"></span>
+
+-->
+
 
 
 <script type="text/javascript">
@@ -439,6 +471,36 @@ function edit(){
 		xhttp.send();
 	}
 */
+
+var a = b = c = d = e = f = g = h = i = "";
+
+function edit(id){
+	var a = document.getElementById('sub_name'+id).innerHTML;
+	var b = document.getElementById('test_name'+id).innerHTML;
+	var c = document.getElementById('test_description'+id).innerHTML;
+	var d = document.getElementById('no_of_questions'+id).innerHTML;
+	var e = document.getElementById('time'+id).innerHTML;
+	var f = document.getElementById('date_from'+id).innerHTML;
+	var g = document.getElementById('date_to'+id).innerHTML;
+	var h = document.getElementById('secret_code'+id).innerHTML;
+	var i = document.getElementById('status'+id).innerHTML;
+	var j = "EDIT DETAILS FOR ID - "+document.getElementById('sub_id'+id).innerHTML;
+	var k = document.getElementById('sub_id'+id).innerHTML;
+
+	document.getElementById("sub_id_for_checkup").innerHTML = k;
+	document.getElementById("sub_heading").innerHTML = j;
+	document.getElementById("sub_name_modal").setAttribute("value",a)	;
+	document.getElementById("test_name_modal").setAttribute("value",b);
+	document.getElementById("test_description_modal").setAttribute("value",c)	;
+	document.getElementById("no_of_questions_modal").setAttribute("value",d)	;
+	document.getElementById("time_modal").setAttribute("value",e)	;
+	document.getElementById("date_from_modal").setAttribute("value",f)	;
+	document.getElementById("date_to_modal").setAttribute("value",g)	;
+	document.getElementById("secret_code_modal").setAttribute("value",h)	;
+	
+
+}
+
 </script>
 
 

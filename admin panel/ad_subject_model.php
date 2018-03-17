@@ -23,11 +23,100 @@ if(!$conn)
 	</script>");
 }
 
-@$test_name = @$test_description = @$date_from = @$date_to = @$secret_code = @$no_of_questions = @$time = @$status = " ";
+@$sub_name = @$test_name = @$test_description = @$date_from = @$date_to = @$secret_code = @$no_of_questions = @$time = @$status = " ";
 
 
-@$sub_name = $_REQUEST['subject_name'];
+//@$sub_name = $_REQUEST['subject_name'];
 
+function test_input($data)
+{
+    $data = trim($data);
+    $data = stripslashes($data);
+    $data = htmlspecialchars($data);
+    return $data;
+}
+
+
+if(isset($_POST['tf4']))
+{
+    if(empty($_POST['sub_name']))
+    {
+        echo "<script> alert('Subject Name required'); </script>";
+    }
+    else
+    {
+        $sub_name = test_input($_POST['sub_name']);
+    }
+
+    if(empty($_POST['exam_name']))
+    {
+        echo "<script> alert('Test name required'); </script>";
+    }
+    else
+    {
+        $test_name = test_input($_POST['exam_name']);
+    }
+
+    if(empty($_POST['description']))
+    {
+        echo "<script> alert('Test Description required'); </script>";
+    }
+    else
+    {
+        $test_description = test_input($_POST['description']);
+    }
+
+    if(empty($_POST['time']))
+    {
+        echo "<script> alert('Time required'); </script>";
+    }
+    else
+    {
+        $time = test_input($_POST['time']);
+    }
+
+    if(empty($_POST['no_of_ques']))
+    {
+        echo "<script> alert('Number of Questions required'); </script>";
+    }
+    else
+    {
+        $test_name = test_input($_POST['no_of_ques']);
+    }
+
+    if(empty($_POST['date_from']))
+    {
+        echo "<script> alert('Start date required'); </script>";
+    }
+    else
+    {
+        $date_from = test_input($_POST['date_from']);
+    }
+
+    if(empty($_POST['date_to']))
+    {
+        echo "<script> alert('End date required'); </script>";
+    }
+    else
+    {
+        $date_to = test_input($_POST['date_to']);
+    }
+
+    if(empty($_POST['secret_code']))
+    {
+        echo "<script> alert('Secret code required'); </script>";
+    }
+    else
+    {
+        $secret_code = test_input($_POST['secret_code']);
+    }
+
+
+    echo $_POST['sub_id_for_checkup'];
+    
+}
+
+/*
 
 @$fetchi = "SELECT * FROM subjectdetails WHERE subjectname = '$sub_name'"; 
 
@@ -45,6 +134,8 @@ if(@$fetchi2 = mysqli_query($conn,$fetchi))
     $status = $result4['status'];
 }
 
+
+/*
 echo "<div class='modal fade' id='mymodal' role='dialog'>
 <div class='modal-dialog'>
 
@@ -125,7 +216,7 @@ echo "<div class='modal fade' id='mymodal' role='dialog'>
 ";
 
 
-
+*/
 
 /*echo "<div class="modal fade" id="mymodal" role="dialog">
 	<div class="modal-dialog">

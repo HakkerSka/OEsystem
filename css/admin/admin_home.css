@@ -1,0 +1,22 @@
+body{
+    background-image: url('http://localhost/php/online%20examination/images/admin_home.jpg');
+    background-size: cover;
+    background-repeat: no-repeat;
+}
+
+#img_translate {
+    
+    transform: rotate(-15deg) translate(330px,350px);
+    
+}
+
+.img_size {
+    height: 160px;
+    width:  170px;
+    transition: 
+}
+
+
+.img_size:hover {
+
+}

@@ -26,9 +26,9 @@ else
 
 	<!-- web font -->
 	<link href="../css/font-awesome.min.css" rel="stylesheet" type="text/css" media="all">
-	<style type="text/css">
+	<link  rel="stylesheet" type="text/css" href="../css/admin/admin_home.css">
 		
-	</style>
+	
 </head>
 <body>
 	
@@ -64,6 +64,13 @@ else
 		</div>
 	</div>
 </nav>
+
+
+<div class="" id="">
+
+<img src="../images/1.jpg" height="200" width="200" id="img_translate" class="img_size" alt="Manage Users">
+
+</div>
 
 
 <!-- Main Body -->
