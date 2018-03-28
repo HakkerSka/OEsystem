@@ -81,7 +81,7 @@ if(isset($_POST['tf4']))
     }
     else
     {
-        $test_name = test_input($_POST['no_of_ques']);
+        $no_of_questions = test_input($_POST['no_of_ques']);
     }
 
     if(empty($_POST['date_from']))
@@ -111,9 +111,106 @@ if(isset($_POST['tf4']))
         $secret_code = test_input($_POST['secret_code']);
     }
 
-
-    echo $_POST['sub_id_for_checkup'];
     
+    $sub_id = test_input($_POST['sub_id_for_checkup']);
+
+    @$result = "SELECT * FROM subjectdetails WHERE sub_id = $sub_id";
+    @$result2 = mysqli_query($conn,$result);
+    @$fetch_details = mysqli_num_rows($result2);
+
+    if($result2)
+    {
+        if($fetch_details > 0)
+        {
+            $row = mysqli_fetch_array($result2);
+        
+            $check_values = array(
+                "subjectname" => "0",
+                "test name" => "0",
+                "test description" => "0",
+                "no_of_questions" => "0",
+                "time" => "0",
+                "date from" => "0",
+                "date to" => "0",
+                "secret code" => "0",
+                
+            );
+
+            $check_values2 = array(
+                "subjectname" => "'$sub_name'",
+                "test name" => "'$test_name'",
+                "test description" => "'$test_description'",
+                "no_of_questions" => $no_of_questions,
+                "time" => $time,
+                "date from" => $date_from,
+                "date to" => $date_to,
+                "secret code" => "'$secret_code'",
+                
+            );
+
+            if($row[1] != $sub_name)
+            {
+                $check_values['subjectname'] = "1"; 
+            }
+            else if($row[2] != $test_name)
+            {
+                $check_values['test name'] = "1"; 
+            }
+            else if($row[3] != $test_description)
+            {
+                $check_values['test description'] = "1";
+            }
+            else if($row[4] != $no_of_questions)
+            {
+                $check_values['no_of_qustions'] = "1";
+            }
+            else if($row[5] != $time)
+            {
+                $check_values['time'] = "1";    
+            }
+            else if($row[6] != $date_from)
+            {
+                $check_values['date from'] = "1";
+            }
+            else if($row[7] != $date_to)
+            {
+                $check_values['date to'] = "1";
+            }
+            else if($row[8] != $secret_code)
+            {
+                $check_values['secret code'] = "1";
+            }
+           
+
+            foreach ($check_values as $i => $i_values)
+            {
+                       
+
+                if($i_values == 1)
+                {   
+                   echo $i;
+                   echo $check_values2[$i];
+                 
+                   @$value3 = $check_values2[$i]; 
+                   @$details_update = "UPDATE subjectdetails SET $i = $value3 WHERE sub_id = $sub_id";
+                   @$details_update2 = mysqli_query($conn,$details_update);
+
+                   if(!$details_update2)
+                   {
+                       echo "<script>alert('Error2');</script>";
+                   }
+                   else
+                   {
+                       echo "Success";
+                   }
+                }   
+            }
+            
+        }
+
+    }
+
+
 }
 
 /*
@@ -298,6 +395,8 @@ echo "<div class='modal fade' id='mymodal' role='dialog'>
 
 */
 
+
+unset($_POST['time']);
 
 mysqli_close($conn);
 ?>

@@ -68,12 +68,16 @@ else
 
 
 
-    
+
         <div class="panel panel-default col-md-6 col-md-offset-3">
-            <div class="panel-heading ">
-            REGISTRATION TO ADD NEW EXAM    
+            <div class="panel-heading">
+			<button class="btn btn-primary form-control" type="button" data-toggle="collapse" data-target="#collapse_sub_reg_form" aria-expanded="false" aria-controls="collapseExample">
+			CLICK HERE TO REGISTER A NEW SUBJECT
+ 			 </button>
+               
             </div>
             <div class="panel-body">
+			<div class="collapse" id="collapse_sub_reg_form">
 			<form action="" method="post">
                 <div class="form-group row">
                     <label for="sub_name" class="col-md-3">Subject Name: </label>
@@ -97,7 +101,7 @@ else
                 <div class="form-group row">
                     <label for="sub_time" class="col-md-3">Time(Seconds): </label>
                     <div class="col-md-9">
-                    <input type="time" min=00:10:00 step="2"class="form-control" placeholder="Enter exam time (minutes)" name="time" required>
+                    <input type="time" min=00:10:00 step="2" class="form-control" placeholder="Enter exam time (minutes)" name="time" required>
                     </div>
                 </div>
                 <div class="form-group row">
@@ -131,9 +135,12 @@ else
                     </div>
                 </div>
 			</form>	
+			</div>
             </div>
         </div>
    
+
+    
 
 <?php
 
@@ -144,7 +151,6 @@ if(!$conn)
 	</script>");
 }
 
-@$subject_name = @$test_name = @$test_description = @$date_from = @$date_to = @$secret_code = @$no_of_questions = @$time = "";
 
 function input_test($data)
 {
@@ -156,6 +162,8 @@ function input_test($data)
 
 if(isset($_POST['tf4']))
 {
+	@$subject_name = @$test_name = @$test_description = @$date_from = @$date_to = @$secret_code = @$no_of_questions = @$time = "";
+
 	if(empty($_POST['sub_name']))
 	{
 		echo "<script>alert('Subject name required');</script>";
@@ -293,6 +301,7 @@ else
 	<table class="table table-striped">
 		  <tr>
 		  		<th> S.No. </th>
+				  <th> Sub ID </th>
 			  <th>Subject Name</th>
 			  <th> Exam Name </th>
 			  <th> Exam Description </th>
@@ -333,13 +342,13 @@ else
 		<td>". $count  ."</td>	
 		<td id='sub_id".$count."'>". $sub_values['sub_id']  ."</td>
 		<td id='sub_name".$count."'>". $sub_values['subjectname']  ."</td>
-		<td id='test_name".$count."'>". $sub_values['test name']  ."</td>
-		<td id='test_description".$count."'>". $sub_values['test description']  ."</td>
+		<td id='test_name".$count."'>". $sub_values['test_name']  ."</td>
+		<td id='test_description".$count."'>". $sub_values['test_description']  ."</td>
 		<td id='no_of_questions".$count."'>". $sub_values['no_of_questions']  ."</td>
 		<td id='time".$count."'>". $sub_values['time']  ."</td>
-		<td id='date_from".$count."'>". $sub_values['date from']  ."</td>
-		<td id='date_to".$count."'>". $sub_values['date to']  ."</td>
-		<td id='secret_code".$count."'>". $sub_values['secret code']  ."</td>
+		<td id='date_from".$count."'>". $sub_values['date_from']  ."</td>
+		<td id='date_to".$count."'>". $sub_values['date_to']  ."</td>
+		<td id='secret_code".$count."'>". $sub_values['secret_code']  ."</td>
 		<td id='status".$count."'>". $sub_values['status']  ."</td>
 		<td> <button class='btn btn-success' onclick='edit(".$count.")' id='edit".$count."' data-toggle='modal' data-target='#mymodal'> Edit </button> </td>
 		<td> <button class='btn btn-danger'> Manage </button> </td>
@@ -353,7 +362,7 @@ else
 	echo "<script> alert('Cann't fetch details!!!'); </script>";
 }
 
-mysqli_close($conn);
+
 
 
 ?>
@@ -376,8 +385,8 @@ mysqli_close($conn);
 				<div class="modal-body">
 		
             
-			<form action="ad_subject_model.php" method="post">
-				<span id="sub_id_for_checkup" name="sub_id_for_checkup"></span>
+			<form action="" method="post">
+				<input type="text" class="form-control" id="sub_id_for_checkup" name="sub_id_for_checkup" style="visibility: hidden;">
                 <div class="form-group row">
                     <label for="sub_name" class="col-md-3">Subject Name: </label>
                     <div class="col-md-9">
@@ -400,7 +409,7 @@ mysqli_close($conn);
                 <div class="form-group row">
                     <label for="sub_time" class="col-md-3">Time <sup>(hr:min:sec)</sup> </label>
                     <div class="col-md-9">
-                    <input type="time" min=00:10:00  class="form-control" id= "time_modal" placeholder="" name="time" required>
+                    <input type="time" min=00:10:00 step="2" class="form-control" placeholder="" id= "time_modal" name="time" required>
                     </div>
                 </div>
                 <div class="form-group row">
@@ -412,13 +421,13 @@ mysqli_close($conn);
 				<div class="form-group row">
                     <label for="sub_name" class="col-md-3">From: </label>
                     <div class="col-md-9">
-                    <input type="date" class="form-control" name="date_from" id= "date_from_modal" required>
+                    <input type="date" class="form-control" id= "date_from_modal"  name="date_from" required>
                     </div>
                 </div>
 				<div class="form-group row">
                     <label for="sub_name" class="col-md-3">To: </label>
                     <div class="col-md-9">
-                    <input type="date" class="form-control" name="date_to" id= "date_to_modal" required>
+                    <input type="date" class="form-control"  id= "date_to_modal"  name="date_to" required>
                     </div>
                 </div>
 				<div class="form-group row">
@@ -430,7 +439,7 @@ mysqli_close($conn);
 				<br>
 				<div class="form-group row">
                     <div class="col-md-9" align="center">
-                    <input type="submit" class="btn btn-default" name="tf4" value="Submit" required>
+                    <input type="submit" class="btn btn-default" name="tf5" value="Submit" required>
                     </div>
                 </div>
 			</form>	
@@ -443,6 +452,224 @@ mysqli_close($conn);
 
 	</div>
 </div>
+
+<?php
+
+if(!$conn)
+{
+	die("<script>alert('Error');
+	window.location.href='../index.html';
+	</script>");
+}
+
+
+function test_input($data)
+{
+	$data = trim($data);
+	$data = stripslashes($data);
+	$data = htmlspecialchars($data); 
+	return $data;
+}
+
+//@$sub_name = $_REQUEST['subject_name'];
+
+if(isset($_POST['tf5']))
+{
+
+	@$sub_name = @$test_name = @$test_description = @$date_from = @$date_to = @$secret_code = @$no_of_questions = @$time = @$status = " ";
+
+	if(empty($_POST['sub_name']))
+    {
+        echo "<script> alert('Subject Name required'); </script>";
+    }
+    else
+    {
+        $sub_name = test_input($_POST['sub_name']);
+    }
+
+    if(empty($_POST['exam_name']))
+    {
+        echo "<script> alert('Test name required'); </script>";
+    }
+    else
+    {
+        $test_name = test_input($_POST['exam_name']);
+    }
+
+    if(empty($_POST['description']))
+    {
+        echo "<script> alert('Test Description required'); </script>";
+    }
+    else
+    {
+        $test_description = test_input($_POST['description']);
+    }
+
+    if(empty($_POST['time']))
+    {
+        echo "<script> alert('Time required'); </script>";
+    }
+    else
+    {
+        $time = test_input($_POST['time']);
+    }
+
+    if(empty($_POST['no_of_ques']))
+    {
+        echo "<script> alert('Number of Questions required'); </script>";
+    }
+    else
+    {
+        $no_of_questions = test_input($_POST['no_of_ques']);
+    }
+
+    if(empty($_POST['date_from']))
+    {
+        echo "<script> alert('Start date required'); </script>";
+    }
+    else
+    {
+        $date_from = test_input($_POST['date_from']);
+    }
+
+    if(empty($_POST['date_to']))
+    {
+        echo "<script> alert('End date required'); </script>";
+    }
+    else
+    {
+        $date_to = test_input($_POST['date_to']);
+    }
+
+    if(empty($_POST['secret_code']))
+    {
+        echo "<script> alert('Secret code required'); </script>";
+    }
+    else
+    {
+        $secret_code = test_input($_POST['secret_code']);
+    }
+
+    
+    $sub_id = test_input($_POST['sub_id_for_checkup']);
+
+    @$result = "SELECT * FROM subjectdetails WHERE sub_id = '$sub_id'";
+    @$result2 = mysqli_query($conn,$result);
+	@$fetch_details = mysqli_num_rows($result2);
+	
+
+
+    if($result2)
+    {
+        if($fetch_details > 0)
+        {
+            $row = mysqli_fetch_array($result2);
+        
+            $check_values = array(
+                "subjectname" => "0",
+                "test_name" => "0",
+                "test_description" => "0",
+                "no_of_questions" => "0",
+                "time" => "0",
+                "date_from" => "0",
+                "date_to" => "0",
+                "secret_code" => "0",
+                
+            );
+
+            $check_values2 = array(
+                "subjectname" => "'$sub_name'",
+                "test_name" => "'$test_name'",
+                "test_description" => "'$test_description'",
+                "no_of_questions" => $no_of_questions,
+                "time" => "'$time'",
+                "date_from" => "'$date_from'",
+                "date_to" => "'$date_to'",
+                "secret_code" => "'$secret_code'",
+                
+            );
+
+            if($row[1] != $sub_name)
+            {
+				$check_values['subjectname'] = "1";
+				 
+            }
+             if($row[2] != $test_name)
+            {
+                $check_values['test_name'] = "1"; 
+            }
+             if($row[3] != $test_description)
+            {
+                $check_values['test_description'] = "1";
+            }
+             if($row[4] != $no_of_questions)
+            {
+                $check_values['no_of_questions'] = "1";
+            }
+             if($row[5] != $time)
+            {
+                $check_values['time'] = "1";    
+            }
+             if($row[6] != $date_from)
+            {
+                $check_values['date_from'] = "1";
+            }
+             if($row[7] != $date_to)
+            {
+                $check_values['date_to'] = "1";
+            }
+             if($row[8] != $secret_code)
+            {
+                $check_values['secret_code'] = "1";
+            }
+           
+
+			
+
+
+            foreach ($check_values as $i => $i_values)
+            {	
+				
+				if($i_values == 1)
+                {   
+                   
+                  
+                 
+                   @$value3 = $check_values2[$i]; 
+                   @$details_update = "UPDATE subjectdetails SET $i = $value3 WHERE sub_id = '$sub_id'";
+                   @$details_update2 = mysqli_query($conn,$details_update);
+
+                   if(!$details_update2)
+                   {
+						$icheck_error = 1;		
+                       echo "<script>alert('Error');</script>";
+				   }
+				   else
+				   {
+					   echo "";
+				   }
+                  
+				}
+
+				
+				   
+				
+			}
+			
+			
+            
+        }
+
+    }
+	else{
+		echo "fail2";
+	}
+
+}
+
+mysqli_close($conn);
+
+?>
 
 <!--
 
@@ -472,7 +699,7 @@ function edit(){
 	}
 */
 
-var a = b = c = d = e = f = g = h = i = "";
+var a = b = c = d = e = f = g = h = i = j = k = "";
 
 function edit(id){
 	var a = document.getElementById('sub_name'+id).innerHTML;
@@ -487,7 +714,8 @@ function edit(id){
 	var j = "EDIT DETAILS FOR ID - "+document.getElementById('sub_id'+id).innerHTML;
 	var k = document.getElementById('sub_id'+id).innerHTML;
 
-	document.getElementById("sub_id_for_checkup").innerHTML = k;
+
+	document.getElementById("sub_id_for_checkup").setAttribute("value",k);
 	document.getElementById("sub_heading").innerHTML = j;
 	document.getElementById("sub_name_modal").setAttribute("value",a)	;
 	document.getElementById("test_name_modal").setAttribute("value",b);
