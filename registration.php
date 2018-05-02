@@ -107,24 +107,68 @@ if(isset($_POST['tf8']))
 	{
 		$password = input_test($_POST['tf8']);
 	}
-}
 
 
 
-@$select = "INSERT INTO userdetails VALUES ('$name','$email','$college','$year','$sec',$mobile,$rollnumber,'$password')";
+	@$check = "SELECT * FROM userdetails WHERE email = '$email'";
+	@$checkmo = "SELECT * FROM userdetails WHERE mobile = $mobile";
+	@$check2 = mysqli_query($conn,$check);
+	@$checkmo2 = mysqli_query($conn,$checkmo);
+
+	if($check2 && $checkmo2)
+	{
+		$total_rows1 = mysqli_num_rows($check2);
+		$total_rows2 = mysqli_num_rows($checkmo2);
+
+		if($total_rows1 == 0 && $total_rows2 == 0)
+		{
+			@$select = "INSERT INTO userdetails VALUES ('$name','$email','$college','$year','$sec',$mobile,$rollnumber,'$password')";
 
 
-if(mysqli_query($conn,$select))
-{
-	echo "<script>alert('Registration Successfull');
-		window.location.href='php/login.php';
-		</script>";
-}
-else
-{
-	echo "<script>alert('Registration Unsuccessfull');
-	window.location.href='index.html';
-	</script>";
+			if(mysqli_query($conn,$select))
+			{
+				echo "<script>alert('Registration Successfull');
+					window.location.href='php/login.php';
+					</script>";
+			}
+			else
+			{
+				echo "<script>alert('Registration Unsuccessfull');
+				window.location.href='index.html';
+				</script>";
+			}
+					
+		}
+		else if($total_rows1 > 0 && $total_rows2 == 0)
+		{
+			echo "<script>alert('Email already exist !!!');
+			window.location.href = 'index.html';
+			</script>";
+		}
+		else if($total_rows1 == 0 && $total_rows2 > 0)
+		{
+			echo "<script>alert('Mobile number already exist !!!');
+			window.location.href = 'index.html';
+			</script>";
+		}
+		else
+		{
+			echo "<script>alert('Email and Mobile number already exist !!!');
+			window.location.href = 'index.html';
+			</script>";
+		}
+	}
+	else
+	{
+		echo "error";
+	}
+
+
+
+	
+	
+
+
 }
 
 

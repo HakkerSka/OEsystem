@@ -72,7 +72,7 @@ else
         <div class="panel panel-default col-md-6 col-md-offset-3">
             <div class="panel-heading">
 			<button class="btn btn-primary form-control" type="button" data-toggle="collapse" data-target="#collapse_sub_reg_form" aria-expanded="false" aria-controls="collapseExample">
-			CLICK HERE TO REGISTER A NEW SUBJECT
+			CLICK HERE TO REGISTER A NEW SUBJECT	
  			 </button>
                
             </div>
@@ -298,6 +298,7 @@ else
 
 <div class="conatiner">
 	<div class="col-md-12	">
+	<form method='post' name='' action='questions/questions_update.php'> 
 	<table class="table table-striped">
 		  <tr>
 		  		<th> S.No. </th>
@@ -338,7 +339,8 @@ else
 			$count++;
 
 
-		echo "<tr> 
+		echo "<tr>
+		
 		<td>". $count  ."</td>	
 		<td id='sub_id".$count."'>". $sub_values['sub_id']  ."</td>
 		<td id='sub_name".$count."'>". $sub_values['subjectname']  ."</td>
@@ -350,8 +352,9 @@ else
 		<td id='date_to".$count."'>". $sub_values['date_to']  ."</td>
 		<td id='secret_code".$count."'>". $sub_values['secret_code']  ."</td>
 		<td id='status".$count."'>". $sub_values['status']  ."</td>
-		<td> <button class='btn btn-success' onclick='edit(".$count.")' id='edit".$count."' data-toggle='modal' data-target='#mymodal'> Edit </button> </td>
-		<td> <button class='btn btn-danger'> Manage </button> </td>
+		<td> <button class='btn btn-danger' name='submit_manage_sub_btn".$count."'>  Manage </button> </td>
+		
+		<td> <button type='button' class='btn btn-success' onclick='edit(".$count.")' id='edit".$count."' data-toggle='modal' data-target='#mymodal'> Edit </button> </td>
 	  </tr>";	
 	}
 	
@@ -363,13 +366,14 @@ else
 }
 
 
-
+$_SESSION['count'] = $count;
 
 ?>
 
 
 
 </table>
+</form>
 	</div>
 </div>
 
@@ -377,7 +381,7 @@ else
 <div class="modal fade" id="mymodal" role="dialog">
 	<div class="modal-dialog">
 
-		<div class="model-content">
+		
 			<div class="modal-content">
 				<div class="modal-header" id="sub_heading">
 					Edit Details:
@@ -448,12 +452,14 @@ else
    
 				</div>
 			</div>
-		</div>
+	
 
 	</div>
 </div>
 
 <?php
+
+// modal php
 
 if(!$conn)
 {
@@ -636,7 +642,7 @@ if(isset($_POST['tf5']))
                   
                  
                    @$value3 = $check_values2[$i]; 
-                   @$details_update = "UPDATE subjectdetails SET $i = $value3 WHERE sub_id = '$sub_id'";
+                   @$details_update 	= "UPDATE subjectdetails SET $i = $value3 WHERE sub_id = '$sub_id'";
                    @$details_update2 = mysqli_query($conn,$details_update);
 
                    if(!$details_update2)
@@ -666,6 +672,10 @@ if(isset($_POST['tf5']))
 	}
 
 }
+
+
+
+
 
 mysqli_close($conn);
 
@@ -701,7 +711,19 @@ function edit(){
 
 var a = b = c = d = e = f = g = h = i = j = k = "";
 
-function edit(id){
+/*function edit(id){
+
+	document.formDetails.action = '';
+	document.formDetails.method = '';
+	document.formDetails.submit();
+	edit_first_btn(id);
+	return;
+}
+*/
+function edit(id)
+{
+	
+
 	var a = document.getElementById('sub_name'+id).innerHTML;
 	var b = document.getElementById('test_name'+id).innerHTML;
 	var c = document.getElementById('test_description'+id).innerHTML;
@@ -728,6 +750,7 @@ function edit(id){
 	
 
 }
+
 
 </script>
 
